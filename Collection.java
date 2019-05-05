@@ -1,17 +1,17 @@
-public Interface Collection<E>{
+public interface Collection<E>{
     public boolean  add(E e);
     
     public boolean contains(Object o);
     
     public boolean equals(Object o);
     
-    public isEmpty();
+    public boolean isEmpty();
     
     public Iterator<E> iterator();
     
     public boolean remove(Object o);
     
-    public Int size();
+    public int size();
     
     public Object[] toArray();
 }    
