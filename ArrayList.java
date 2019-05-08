@@ -1,14 +1,11 @@
 public class ArrayList<E> implements List<E> {
     private int size=0;
-    private static final int default_capacity=4;
+    private static final int DEFAULT_CAPACITY=4;
     private Object elements[];
-    public ArrayList(){
-        elements=new Object[default_capacity];
+    public ArrayList() {
+        elements=new Object[DEFAULT_CAPACITY];
     }
-
-
-
-    public boolean add (E e){
+    public boolean add (E e) {
         if(size==elements.length){
             ensureCapacity();
         }
@@ -16,9 +13,7 @@ public class ArrayList<E> implements List<E> {
         return true;
     }
 
-
-
-    public void add(int index, E ele){
+    public void add(int index, E ele) {
         if(index>size()||index<0){
             throw new IndexOutOfBoundsException(); 
         }
@@ -35,21 +30,21 @@ public class ArrayList<E> implements List<E> {
     }
 
     @SuppressWarnings("unchecked")
-    public E remove(int index){
+    public E remove(int index) {
         if(size<=index||index<0){
              throw new IndexOutOfBoundsException(); 
         }
         int i;
         E res=(E)elements[index];
         for(i=index+1;i<size;i++){
-            elements[i-1]=elements[i];
+            elements[i-1]=elements[i];             
         }
         elements[i-1]=null;
         size=size-1;
         return res;
     }
 
-    public boolean remove(Object o){
+    public boolean remove(Object o) {
         for(int i=0;i<elements.length;i++){
             if(elements[i]==o){
                 for(;i<size;i++){
@@ -64,7 +59,7 @@ public class ArrayList<E> implements List<E> {
     }
     
     @SuppressWarnings("unchecked")
-    public E set(int index, E e){
+    public E set(int index, E e) {
         if(size<=index||index<0){
              throw new IndexOutOfBoundsException(); 
         }
@@ -74,7 +69,7 @@ public class ArrayList<E> implements List<E> {
     }
 
     @SuppressWarnings("unchecked")
-    public E get(int index){
+    public E get(int index) {
         if(size<=index||index<0){
              throw new IndexOutOfBoundsException(); 
         }
@@ -82,7 +77,7 @@ public class ArrayList<E> implements List<E> {
     }
 
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         if(size==0){
             return true;
         }
@@ -91,13 +86,13 @@ public class ArrayList<E> implements List<E> {
 
 
 
-    public int size(){
+    public int size() {
         return size;
     }
 
 
 
-    public boolean contains(Object o){
+    public boolean contains(Object o) {
         for(int i=0;i<size;i++){
             if(elements[i]==o){
                 return true;
@@ -108,7 +103,7 @@ public class ArrayList<E> implements List<E> {
 
 
 
-    public void ensureCapacity(){
+    public void ensureCapacity() {
         int newSize=elements.length*2;
          Object elementsTwo[]=new Object[newSize];
          for(int i=0;i<elements.length;i++){
@@ -117,11 +112,11 @@ public class ArrayList<E> implements List<E> {
          elements=elementsTwo;
     }
 
-    public Iterator<E> iterator(){
+    public Iterator<E> iterator() {
         return null;
     }    
 
-public static void main(String [ ] args){
+public static void main(String [ ] args) {
     ArrayList<Integer> A=new ArrayList<>();
     check(A.size == 0, "Assertion: initial size should be 0.");
     check(A.elements.length == 4, "Assertion: initial length should be 4.");
