@@ -3,7 +3,7 @@ import java.util.NoSuchElementException;
 public class LinkedList<E> implements List<E>, Deque<E> {
     private static class Node<F> {
         private Node next;
-        private E data;
+        private F data;
     }
 
     private Node<E> head;
@@ -35,12 +35,12 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public void add(int index, E element) { //insert element in specified spot
-        securCheck(index);
         if(index == 0) {
             head.data = element;
             numNodes++;
             return;
         }
+        securCheck(index);
         int i = 0;
         Node f = head;
         Node n = new Node<E>();
@@ -103,7 +103,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         E holder;
         for(int i = 0; i < size(); i++) {
             if(i == index) {
-                holder = temp.data;
+                holder = (E)temp.data;
                 temp.data = element;
                 return holder;
             }
@@ -167,7 +167,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     @SuppressWarnings("unchecked")
     public E getFirst() {
         if(size() == 0) {
-            return null;
+            throw new NoSuchElementException();
         }
         return (E)head.data;
     }
@@ -175,7 +175,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     @SuppressWarnings("unchecked")
     public E getLast() {
         if(size() == 0) {
-            return null;
+            throw new NoSuchElementException();
         }
         Node temp = head;
         while(temp.next != null) {
@@ -228,14 +228,14 @@ public class LinkedList<E> implements List<E>, Deque<E> {
 
     public E peek() {
         if(isEmpty()) {
-            return null;
+            throw new NoSuchElementException();
         }
         return getFirst();
     }
 
     public E poll() {
         if(isEmpty()) {
-            return null;
+            throw new NoSuchElementException();
         }
         return removeFirst();
     }
