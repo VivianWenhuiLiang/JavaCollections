@@ -4,6 +4,12 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     private static class Node<F> {
         private Node next;
         private F data;
+        public Node() {
+            data=null;
+        }
+        public Node(F newData) {
+            data=newData;
+        }
     }
 
     private Node<E> head;
@@ -28,8 +34,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         while(temp.next != null) {
             temp = temp.next;
         }
-        temp.next = new Node();
-        temp.next.data = e;
+        temp.next = new Node(e);
         numNodes++;
         return true;
     }
@@ -140,12 +145,10 @@ public class LinkedList<E> implements List<E>, Deque<E> {
             numNodes++;
             return;
         }
-        Node holder = new Node<E>();
-        holder.data = head.data;
-        holder.next = head.next;
-        head.data = e;
-        head.next = holder;
-        numNodes++;
+       Node newHead=new Node<E>(e);
+       newHead.next=head;
+       head=newHead;
+       numNodes++;
     }
 
     public void addLast(E e) {
@@ -158,8 +161,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         while(tra.next != null) {
             tra = tra.next;
         }
-        Node temp = new Node<E>();
-        temp.data = e;
+        Node temp = new Node<E>(e);
         tra.next = temp;
         numNodes++;
     }
