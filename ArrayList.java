@@ -154,6 +154,7 @@ public static void main(String [ ] args) {
     A.set(3,4);
     check(arrayEquals(A.elements, new Integer[]{1, 2, 5, 4 }, 4), "Assertion: elements must be 1 2 5 4");
     printArray(A.elements);
+
     A.get(1);
 
     A.isEmpty();

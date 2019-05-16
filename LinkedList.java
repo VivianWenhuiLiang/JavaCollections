@@ -1,15 +1,21 @@
 import java.util.NoSuchElementException;
-
-public class LinkList<E> implements List<E>, Deque<E> {
+@SuppressWarnings("unchecked")
+public class LinkedList<E> implements List<E>, Deque<E> {
     private static class Node<F> {
         private Node next;
         private F data;
+        public Node() {
+            data=null;
+        }
+        public Node(F newData) {
+            data=newData;
+        }
     }
 
     private Node<E> head;
     private int numNodes;
 
-    public LinkList() {
+    public LinkedList() {
         head = new Node();
     }
 
@@ -28,21 +34,18 @@ public class LinkList<E> implements List<E>, Deque<E> {
         while(temp.next != null) {
             temp = temp.next;
         }
-        temp.next = new Node();
-        temp.next.data = e;
+        temp.next = new Node(e);
         numNodes++;
         return true;
     }
 
     public void add(int index, E element) { //insert element in specified spot
-        if(index < 0 || index > size()) {
-            throw new IndexOutOfBoundsException();
-        }
         if(index == 0) {
             head.data = element;
             numNodes++;
             return;
         }
+        securCheck(index);
         int i = 0;
         Node f = head;
         Node n = new Node<E>();
@@ -60,9 +63,7 @@ public class LinkList<E> implements List<E>, Deque<E> {
 
     @SuppressWarnings("unchecked")
     public E get(int index) {
-        if(index < 0 || index >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        securCheck(index);
         Node temp = head;
         for(int i = 0; i < index; i++) {
             temp = temp.next;
@@ -70,11 +71,15 @@ public class LinkList<E> implements List<E>, Deque<E> {
         return (E)temp.data;
     }
 
-    @SuppressWarnings("unchecked")
-    public E remove(int index) {
-        if(index < 0 || index >= size()) {
+    public void securCheck(int index){
+         if(index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException();
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public E remove(int index) {
+       securCheck(index);
         Node temp = head;
         Node holder;
         for(int i = 0; i < index - 1; i++) {
@@ -97,18 +102,15 @@ public class LinkList<E> implements List<E>, Deque<E> {
         return false;
     }
 
-    @SuppressWarnings("unchecked")
     public E set(int index, E element) { //replace element in specified spot
-        if(index < 0 || index >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        securCheck(index);
         Node temp = head;
         E holder;
         for(int i = 0; i < size(); i++) {
             if(i == index) {
                 holder = (E)temp.data;
                 temp.data = element;
-                return (E)holder;
+                return holder;
             }
             temp = temp.next;
         }
@@ -133,7 +135,7 @@ public class LinkList<E> implements List<E>, Deque<E> {
 
     }
 
-    public Iterator<E> iterator() {
+    public Iterator<E> iterator() {//will TODO 
         return null;
     }
 
@@ -143,12 +145,10 @@ public class LinkList<E> implements List<E>, Deque<E> {
             numNodes++;
             return;
         }
-        Node holder = new Node<E>();
-        holder.data = head.data;
-        holder.next = head.next;
-        head.data = e;
-        head.next = holder;
-        numNodes++;
+       Node newHead=new Node<E>(e);
+       newHead.next=head;
+       head=newHead;
+       numNodes++;
     }
 
     public void addLast(E e) {
@@ -161,8 +161,7 @@ public class LinkList<E> implements List<E>, Deque<E> {
         while(tra.next != null) {
             tra = tra.next;
         }
-        Node temp = new Node<E>();
-        temp.data = e;
+        Node temp = new Node<E>(e);
         tra.next = temp;
         numNodes++;
     }
@@ -170,7 +169,7 @@ public class LinkList<E> implements List<E>, Deque<E> {
     @SuppressWarnings("unchecked")
     public E getFirst() {
         if(size() == 0) {
-            return null;
+            throw new NoSuchElementException();
         }
         return (E)head.data;
     }
@@ -178,7 +177,7 @@ public class LinkList<E> implements List<E>, Deque<E> {
     @SuppressWarnings("unchecked")
     public E getLast() {
         if(size() == 0) {
-            return null;
+            throw new NoSuchElementException();
         }
         Node temp = head;
         while(temp.next != null) {
@@ -198,7 +197,7 @@ public class LinkList<E> implements List<E>, Deque<E> {
         return holder;
 
     }
-
+    @SuppressWarnings("unchecked")
     public E removeLast() {
         if(size() == 0) {
             throw new NoSuchElementException();
@@ -231,14 +230,14 @@ public class LinkList<E> implements List<E>, Deque<E> {
 
     public E peek() {
         if(isEmpty()) {
-            return null;
+            throw new NoSuchElementException();
         }
         return getFirst();
     }
 
     public E poll() {
         if(isEmpty()) {
-            return null;
+            throw new NoSuchElementException();
         }
         return removeFirst();
     }
@@ -249,19 +248,19 @@ public class LinkList<E> implements List<E>, Deque<E> {
 
 
     public static void main(String [ ] args) {
-        LinkList<Integer> a = new LinkList<>();
+        LinkedList<Integer> a = new LinkedList<>();
         a.size();
-        check(a.size() == 0, "initalize LinkList size should be 0");
+        check(a.size() == 0, "initalize LinkedList size should be 0");
 
         a.add(0, 2);
-        printLinkList(a);
+        printLinkedList(a);
 
         a.add(3);
-        printLinkList(a);
+        printLinkedList(a);
 
         a.add(4);
-        check(a.size() == 3, "add 2, 3, 4 in LinkList");
-        printLinkList(a);
+        check(a.size() == 3, "add 2, 3, 4 in LinkedList");
+        printLinkedList(a);
 
         try {
             a.get(3);
@@ -271,49 +270,49 @@ public class LinkList<E> implements List<E>, Deque<E> {
         }
 
         a.remove(1);
-        check(a.size() == 2, "remove 3, only 2, 4 in the LinkList");
-        printLinkList(a);
+        check(a.size() == 2, "remove 3, only 2, 4 in the LinkedList");
+        printLinkedList(a);
 
         a.set(0, 3);
-        check(a.size() == 2, " reset 2 to 3 in the LinkList,so list contains 3, 4 ");
-        printLinkList(a);
+        check(a.size() == 2, " reset 2 to 3 in the LinkedList,so list contains 3, 4 ");
+        printLinkedList(a);
 
         a.add(4);
-        check(a.size() == 3, " 3, 4 ,4 in the LinkList");
-        printLinkList(a);
+        check(a.size() == 3, " 3, 4 ,4 in the LinkedList");
+        printLinkedList(a);
 
         a.isEmpty();
         check(a.size() != 0, "not empty");
 
         a.contains(3);
-        printLinkList(a);
+        printLinkedList(a);
 
         a.addFirst(5);
-        check(a.size() == 4, " 5,3, 4 ,4 in the LinkList");
+        check(a.size() == 4, " 5,3, 4 ,4 in the LinkedList");
         a.addLast(6);
-        check(a.size() == 5, " 5, 3, 4 , 4, 6 in the LinkList");
-        printLinkList(a);
+        check(a.size() == 5, " 5, 3, 4 , 4, 6 in the LinkedList");
+        printLinkedList(a);
 
         a.getFirst();
         a.getLast();
 
         a.removeFirst();
-        check(a.size() == 4, " 3, 4 , 4, 6 in the LinkList");
-        printLinkList(a);
+        check(a.size() == 4, " 3, 4 , 4, 6 in the LinkedList");
+        printLinkedList(a);
         a.removeLast();
         check(a.size() == 3, " 3, 4 ,4 in the LinkList");
-        printLinkList(a);
+        printLinkedList(a);
 
         a.offer(7);
         check(a.size() == 4, " 3, 4 ,4 ,7 in the LinkList");
-        printLinkList(a);
+        printLinkedList(a);
         a.element();
         a.peek();
         a.remove();
         check(a.size() == 3, " 4 ,4 ,7 in the LinkList");
         a.poll();//remove the first element
         check(a.size() == 2, " 4, 7 in the LinkList");
-        printLinkList(a);
+        printLinkedList(a);
     }
 
     public static void check(boolean condition, String message) {
@@ -322,7 +321,7 @@ public class LinkList<E> implements List<E>, Deque<E> {
         }
     }
 
-    public static void printLinkList(LinkList ll) {
+    public static void printLinkedList(LinkedList ll) {
         Node node = ll.head;
         while(node != null) {
             System.out.print(node.data);
