@@ -7,7 +7,7 @@ public class ArrayList<E> implements List<E> {
     }
     public boolean add (E e) {
         if(size==elements.length){
-            ensureCapacity();
+            elements = ensureCapacity(elements);
         }
         elements[size++]=e;
         return true;
@@ -18,7 +18,7 @@ public class ArrayList<E> implements List<E> {
             throw new IndexOutOfBoundsException(); 
         }
         if(size==elements.length){
-            ensureCapacity();
+            elements = ensureCapacity(elements);
          }
          int i;
          int count=size;
@@ -103,18 +103,35 @@ public class ArrayList<E> implements List<E> {
 
 
 
-    public void ensureCapacity() {
+    public static Object[] ensureCapacity(Object elements[]) {
         int newSize=elements.length*2;
          Object elementsTwo[]=new Object[newSize];
          for(int i=0;i<elements.length;i++){
             elementsTwo[i]=elements[i];
          }
-         elements=elementsTwo;
+         return elementsTwo;
     }
+    public Iterator<E> iterator(){
+        return new ArrayListIterator<E>(this);
 
-    public Iterator<E> iterator() {
-        return null;
-    }    
+    }
+    @SuppressWarnings("unchecked")
+    private static class ArrayListIterator<F> implements Iterator<F> {
+        private ArrayList al;
+        int index = 0;
+        public ArrayListIterator(ArrayList<F> al) {
+            this.al=al;
+        }
+
+        public boolean hasNext() {
+            return index < al.size();
+        }
+        public F next() {
+            F f = (F)al.elements[index];
+            index++;
+            return f;
+        }
+    }
 
 public static void main(String [ ] args) {
     ArrayList<Integer> A=new ArrayList<>();
