@@ -95,7 +95,6 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         if(head==null) {
             return false;
         }
-
         if(head.data.equals(o)){
             head=head.next;
             numNodes--;
