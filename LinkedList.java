@@ -3,7 +3,7 @@ import java.util.NoSuchElementException;
 public class LinkedList<E> implements List<E>, Deque<E> {
     private static class Node<F> {
         private Node next;
-        private F data;
+        private F data; 
         public Node() {
             data=null;
         }
@@ -92,12 +92,23 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public boolean remove(Object o) {
-        Node temp = head;
-        while(temp != null) {
-            if(temp.data == o) {
+
+        if(head==null) {
+            return false;
+        }
+        if(head.data.equals(o)){
+            head=head.next;
+            numNodes--;
+            return true;
+        }
+        Node front = head;
+        while(front.next!= null) {
+            if(front.next.data .equals(o)) {
+                front.next=front.next.next;
+                numNodes--;
                 return true;
             }
-            temp = temp.next;
+            front = front.next;
         }
         return false;
     }
@@ -134,9 +145,24 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         return false;
 
     }
+    private static class LinkedListIterator<F> implements Iterator<F> {
+        private Node<F> pointer;
+        public LinkedListIterator(Node<F> head) {
+            pointer = head;
+        }
+
+        public boolean hasNext() {
+            return pointer != null;
+        }
+        public F next() {
+            F f = pointer.data;
+            pointer = pointer.next;
+            return f;
+        }
+    }
 
     public Iterator<E> iterator() {//will TODO 
-        return null;
+        return new LinkedListIterator<E>(head);
     }
 
     public void addFirst(E e) {
@@ -283,9 +309,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
 
         a.isEmpty();
         check(a.size() != 0, "not empty");
-
-        a.contains(3);
-        printLinkedList(a);
+        check(a.contains(3),"contains 3");
 
         a.addFirst(5);
         check(a.size() == 4, " 5,3, 4 ,4 in the LinkedList");
@@ -293,8 +317,8 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         check(a.size() == 5, " 5, 3, 4 , 4, 6 in the LinkedList");
         printLinkedList(a);
 
-        a.getFirst();
-        a.getLast();
+        check(a.getFirst()==5,"53446");
+        check(a.getLast()==6,"53446");
 
         a.removeFirst();
         check(a.size() == 4, " 3, 4 , 4, 6 in the LinkedList");
@@ -306,12 +330,20 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         a.offer(7);
         check(a.size() == 4, " 3, 4 ,4 ,7 in the LinkList");
         printLinkedList(a);
-        a.element();
-        a.peek();
+        check(a.element()==3,"3447");
+        check(a.peek()==3,"3447");
         a.remove();
         check(a.size() == 3, " 4 ,4 ,7 in the LinkList");
+        printLinkedList(a);//447
+
         a.poll();//remove the first element
         check(a.size() == 2, " 4, 7 in the LinkList");
+        printLinkedList(a);
+
+        check(a.get(0)==4,"index 0,data=4");
+        a.remove((Object)4);
+        check(a.size()==1,"only 7 in the LinkedList");
+
         printLinkedList(a);
     }
 
@@ -322,6 +354,10 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public static void printLinkedList(LinkedList ll) {
+        if(ll == null) {
+            System.out.println(ll);
+            return;
+        }
         Node node = ll.head;
         while(node != null) {
             System.out.print(node.data);
