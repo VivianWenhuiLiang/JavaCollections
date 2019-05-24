@@ -26,8 +26,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
 
     public boolean add(E e) { //to the end of the list
         Node temp = head;
-        if(numNodes==0) {
-            head = new Node();
+        if(size() == 0) {
             head.data = e;
             numNodes++;
             return true;
@@ -41,10 +40,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public void add(int index, E element) { //insert element in specified spot
-        Node<E> temp = new Node<>(); 
         if(index == 0) {
-            temp.next=head;
-            head=temp;
             head.data = element;
             numNodes++;
             return;
@@ -52,17 +48,17 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         securCheck(index);
         int i = 0;
         Node f = head;
-        temp.data = element;
+        Node n = new Node<E>();
+        n.data = element;
+
         while(i < index - 1) {
             f = f.next;
         }
         Node holder = f.next;
-        f.next = temp;
-        temp.next = holder;
+        f.next = n;
+        n.next = holder;
         numNodes++;
     }
-
-
 
     @SuppressWarnings("unchecked")
     public E get(int index) {
@@ -96,7 +92,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public boolean remove(Object o) {
-        if(head==null || head.data == null) {
+        if(head==null) {
             return false;
         }
 
@@ -107,7 +103,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         }
         Node front = head;
         while(front.next!= null) {
-            if(front.next.data.equals(o)) {
+            if(front.next.data .equals(o)) {
                 front.next=front.next.next;
                 numNodes--;
                 return true;
@@ -280,17 +276,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
 
     public static void main(String [ ] args) {
         LinkedList<Integer> a = new LinkedList<>();
-        printLinkedList(a);
-
-        a.add(1);
-        printLinkedList(a);
-        a.remove((Integer)1);
-        printLinkedList(a);
-        a.add(2);
-        a.remove((Integer)2);
-        printLinkedList(a);
-
-
+        a.size();
         check(a.size() == 0, "initalize LinkedList size should be 0");
 
         a.add(0, 2);
@@ -324,7 +310,6 @@ public class LinkedList<E> implements List<E>, Deque<E> {
 
         a.isEmpty();
         check(a.size() != 0, "not empty");
-
         check(a.contains(3),"contains 3");
 
         a.addFirst(5);
@@ -346,7 +331,6 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         a.offer(7);
         check(a.size() == 4, " 3, 4 ,4 ,7 in the LinkList");
         printLinkedList(a);
-
         check(a.element()==3,"3447");
         check(a.peek()==3,"3447");
         a.remove();
