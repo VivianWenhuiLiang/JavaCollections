@@ -26,7 +26,8 @@ public class LinkedList<E> implements List<E>, Deque<E> {
 
     public boolean add(E e) { //to the end of the list
         Node temp = head;
-        if(size() == 0) {
+        if(numNodes==0) {
+            head = new Node();
             head.data = e;
             numNodes++;
             return true;
@@ -40,7 +41,10 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public void add(int index, E element) { //insert element in specified spot
+        Node<E> temp = new Node<>(); 
         if(index == 0) {
+            temp.next=head;
+            head=temp;
             head.data = element;
             numNodes++;
             return;
@@ -48,14 +52,13 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         securCheck(index);
         int i = 0;
         Node f = head;
-        Node n = new Node<E>();
-        n.data = element;
+        temp.data = element;
         while(i < index - 1) {
             f = f.next;
         }
         Node holder = f.next;
-        f.next = n;
-        n.next = holder;
+        f.next = temp;
+        temp.next = holder;
         numNodes++;
     }
 
@@ -88,13 +91,15 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         holder = temp.next;
         temp.next = temp.next.next;
         numNodes--;
+
         return (E)holder.data;
     }
 
     public boolean remove(Object o) {
-        if(head==null) {
+        if(head==null || head.data == null) {
             return false;
         }
+
         if(head.data.equals(o)){
             head=head.next;
             numNodes--;
@@ -102,7 +107,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         }
         Node front = head;
         while(front.next!= null) {
-            if(front.next.data .equals(o)) {
+            if(front.next.data.equals(o)) {
                 front.next=front.next.next;
                 numNodes--;
                 return true;
@@ -275,7 +280,17 @@ public class LinkedList<E> implements List<E>, Deque<E> {
 
     public static void main(String [ ] args) {
         LinkedList<Integer> a = new LinkedList<>();
-        a.size();
+        printLinkedList(a);
+
+        a.add(1);
+        printLinkedList(a);
+        a.remove((Integer)1);
+        printLinkedList(a);
+        a.add(2);
+        a.remove((Integer)2);
+        printLinkedList(a);
+
+
         check(a.size() == 0, "initalize LinkedList size should be 0");
 
         a.add(0, 2);
