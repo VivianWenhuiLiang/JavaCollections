@@ -48,9 +48,9 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         securCheck(index);
         int i = 0;
         Node f = head;
-
         Node n = new Node<E>();
         n.data = element;
+
         while(i < index - 1) {
             f = f.next;
         }
@@ -59,8 +59,6 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         n.next = holder;
         numNodes++;
     }
-
-
 
     @SuppressWarnings("unchecked")
     public E get(int index) {
@@ -332,7 +330,6 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         a.offer(7);
         check(a.size() == 4, " 3, 4 ,4 ,7 in the LinkList");
         printLinkedList(a);
-
         check(a.element()==3,"3447");
         check(a.peek()==3,"3447");
         a.remove();
