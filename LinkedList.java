@@ -92,6 +92,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public boolean remove(Object o) {
+
         if(head==null) {
             return false;
         }
@@ -144,7 +145,6 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         return false;
 
     }
-
     private static class LinkedListIterator<F> implements Iterator<F> {
         private Node<F> pointer;
         public LinkedListIterator(Node<F> head) {
@@ -309,7 +309,6 @@ public class LinkedList<E> implements List<E>, Deque<E> {
 
         a.isEmpty();
         check(a.size() != 0, "not empty");
-
         check(a.contains(3),"contains 3");
 
         a.addFirst(5);
@@ -331,7 +330,6 @@ public class LinkedList<E> implements List<E>, Deque<E> {
         a.offer(7);
         check(a.size() == 4, " 3, 4 ,4 ,7 in the LinkList");
         printLinkedList(a);
-
         check(a.element()==3,"3447");
         check(a.peek()==3,"3447");
         a.remove();
